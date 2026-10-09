@@ -129,83 +129,111 @@
 
 ## Your Development Log
 
-### Entry 1 - [Date and Time]
-**What I did**:
+### Entry 1 - [8:51 AM ,October 6, 2026]
+**What I did**: i put my student ID.
 
-**Details**:
+**Details**: first fork the Assignment then read the instructure and put my ID like the instructure said
 
-**Challenges**:
+**Challenges**:understand the code Strucure
 
-**Solution**:
+**Solution**:use [CTRL+F] to fine the var
 
-**Time spent**:
-
----
-
-### Entry 2 - [Date and Time]
-**What I did**:
-
-**Details**:
-
-**Challenges**:
-
-**Solution**:
-
-**Time spent**:
+**Time spent**: 11m
 
 ---
 
-### Entry 3 - [Date and Time]
-**What I did**:
+### Entry 2 - [9:02 AM ,October 6, 2026]
+**What I did**:Put JDK in gitignore.
 
-**Details**:
+**Details**:my env was needed to the JDK as a file name (oracleJDK-27) 
+            and i don't want it to load with Assignment since it will make him bigger
 
-**Challenges**:
+**Challenges**:who to use file (.gitignore) correctly
 
-**Solution**:
+**Solution**:type in (.gitignore) the Next
+###### my env 
+oracleJdk-27/
 
-**Time spent**:
+because it will ignore the whole folder
 
----
-
-### Entry 4 - [Date and Time]
-**What I did**:
-
-**Details**:
-
-**Challenges**:
-
-**Solution**:
-
-**Time spent**:
+**Time spent**:15m
 
 ---
 
-### Entry 5 - [Date and Time]
-**What I did**:
+### Entry 3 - [1:02 PM ,October 6, 2026]
+**What I did**:Feature 1: added priority field to Process class.
 
-**Details**:
+**Details**: I added a "priority" integer field to the "Process" class
+            Implemented the initial logic for generating a random priority number when a process is created.
 
-**Challenges**:
+**Challenges**:Finding the right place to put the random number generator so it only runs once per process
 
-**Solution**:
+**Solution**:Placed the logic inside the constructor of the "Process" class
 
-**Time spent**:
+**Time spent**:30m
+
+---
+
+### Entry 4 - [6:23 AM ,October 7, 2026]
+**What I did**:Some fixes on Feature 1 make it from (1-10) instead of (1-5).
+
+**Details**:Reviewed the requirements and realized the priority should be between 1 and 10
+           
+
+**Challenges**:who to edit tho function and monitor the logic
+
+**Solution**: edit the Random function to (10) + 1
+
+**Time spent**: <1m
 
 ---
 
-### Entry 6 - [Optional - Date and Time]
-**What I did**:
+### Entry 5 - [6:38 AM ,October 7, 2026]
+**What I did**:Feature 2: Implemented context switch counter.
 
-**Details**:
+**Details**:A static int context was added.To monitor CPU context switches, use the switches variable.
+Every time a thread was taken from the ready queue and launched, the counter was increased.
+At the conclusion of the simulation, the total count was printed.
 
-**Challenges**:
+**Challenges**:Figuring out the exact logical moment a context switch occurs in the code.
 
-**Solution**:
+**Solution**:Placed the increment operation right before "currentThread.start()" in the main while loop.
 
-**Time spent**:
+**Time spent**:20m
 
 ---
+
+### Entry 6 - [6:15 PM ,October 8, 2026,]
+**What I did**:Feature 3: Added waiting time tracking and summary table and add some comments for Feature 2.
+
+**Details**:
+- Tracked "lastQueuedTime" to calculate total waiting time for each process accurately.
+
+- Created an "ArrayList" to save all processes and printed them in a formatted summary table at the end (Burst Time, Waiting Time, Turnaround Time).
+  
+- Added explanatory comments to Feature 2 code for better readability.
+
+**Challenges**:Calculating waiting time without including the active burst time when the thread is sleeping.
+
+**Solution**:Reset the "lastQueuedTime" every single time the process yields the CPU and returns to the ready queue.
+
+**Time spent**:1h and 15m
+
+---
+
+### Entry 7 - [6:28 PM,October 8, 2026]
+**What I did**:Fill the student info
+
+**Details**:fill my info in "MY_WORK.md" file
+
+**Challenges**: //
+
+**Solution**: //
+
+**Time spent**:>3m
+
+---
+
 
 ## Development Log Summary
 
