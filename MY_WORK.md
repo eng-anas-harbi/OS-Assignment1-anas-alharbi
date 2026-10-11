@@ -265,7 +265,7 @@ At the conclusion of the simulation, the total count was printed.
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[This assignment gave me the opportunity to understand how multithreading allows us to run independent tasks at the same time, mimicking an environment of an operating system. I used Thread.start() to run processes and saw how the JVM manages their execution. I also learnt how to simulate processing time using `Thread.sleep()` which holds CPU artificially to simulate real burst time. It also became clear that `Thread.join()` is needed, as it makes the main scheduling loop wait until the current time slice has finished before swapping to the next thread.]
 
 ## Question 2: What was the most challenging part of this assignment?
 
@@ -273,7 +273,8 @@ At the conclusion of the simulation, the total count was printed.
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[The most difficult part was to get the `totalWaitingTime` right for Feature 3,
+ taking care not to include the time the process was actually running. The threads use .sleep() on their allotted quantum so a simple start/end timer was providing bad data. To do that I had to analyze the process lifecycle inside the Round-Robin algorithm very deeply. I created a variable `lastQueuedTime` and reset it every time the process gave back the cpu to the scheduler which was a tricky debugging task.]
 
 ## Question 3: How did you overcome the challenges you faced?
 
@@ -281,7 +282,7 @@ At the conclusion of the simulation, the total count was printed.
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[I tackled these logical hurdles by breaking down the complex time tracking problem into smaller, testable pieces. Instead of guessing, I strategically peppered the `run()` method with `System.out.println()` statements everyplace. This let me see the precise millisecond values of my `lastQueuedTime` variable in real-time. By making use of the console output and comparing it to what I expected from the Round-Robin scheduling I was able to find the exact point where the timer needed to be reset. I also often went back to the starter code to make sure my additions were well integrated.]
 
 ## Question 4: How can you apply multithreading concepts in real-world applications?
 
@@ -289,7 +290,7 @@ At the conclusion of the simulation, the total count was printed.
 
 **Your Answer:** *(5-7 sentences)*
 
-[Write your answer here.]
+[Modern web server architectures use multithreading to great advantage. Each incoming client request is assigned to a separate thread, allowing the server to respond to thousands of users. It is also a basic building block in video games where one thread does rendering of graphics while other thread does physics or background network data processing. In addition, most modern desktop applications are multi-threaded. For example, if a web browser is downloading large files, it will use background threads so that the main user interface does not freeze or become unresponsive .]
 
 ### Optional: What would you like to learn more about?
 
@@ -321,7 +322,7 @@ At the conclusion of the simulation, the total count was printed.
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+[A process is a self-contained program that requires its own memory, while a thread is a lightweight unit of execution within a process that shares the same memory . Java threads (see new Thread(process)) . Creating real OS processes has a large overhead and slower context-switching . So in this assignment we simulate OS processes with Java threads . With Threads we could mimic scheduling, CPU yielding and quick state changes all within a single JVM instance and without wasting system resources.]
 
 ## Question 2: Ready Queue Behavior
 
@@ -333,9 +334,16 @@ At the conclusion of the simulation, the total count was printed.
 
 **Your Answer:** *(3-5 sentences)*
 
-[Write your answer here.]
+[In Round-Robin scheduling, if a process is unable to complete its burst time in the time quantum, the process is preempted, relinquishes the CPU, and is placed at the end of the ready queue. This re-queueing is important for fairness, because it prevents long-running processes from hogging the CPU (starvation) and ensures that shorter tasks get a chance to run. In my simulation, P2 had a burst time of 4599 m s. The quantum was 2000ms so it ran , yielded and got requeued twice before finishing .]
 
 Example from my output:
+  ? P2 executing quantum [2000ms] 
+  ? Quantum progress: [???????????????] 100%
+  ? P2 completed quantum 2000ms ? Overall progress: [????????????????????] 43%
+     Remaining time: 2599ms
+  ? P2 yields CPU for context switch
+
+  ? P2 (Priority: 6) added to ready queue ? Burst time: 4599ms
 ```
 [Paste a relevant snippet from your program output here showing a process being re-queued]
 ```
@@ -351,15 +359,15 @@ Example from my output:
 
 **Your Answer:** *(3-5 sentences overall; one short explanation per state)*
 
-1. **New**: [When is P1 in the New state?]
+1. **New**: [P1 is in the New state exactly when the `new Thread(process)` object is instantiated inside the `addProcessToQueue()` method, but before any execution begins.]
 
-2. **Runnable**: [When does P1 become Runnable?]
+2. **Runnable**: [P1 transitions to Runnable when the main scheduler loop calls `currentThread.start()`, signaling to the JVM that the thread is ready to be allocated CPU time.]
 
-3. **Running**: [When is P1 Running?]
+3. **Running**: [P1 enters the Running state when the JVM actually allocates CPU resources to it, actively executing the instructions inside its overridden `run()` method.]
 
-4. **Waiting**: [When and why would a thread be Waiting?]
+4. **Waiting**: [P1's thread enters a Timed Waiting state when `Thread.sleep(sleepTime)` is called to simulate processing time, while the main scheduler thread simultaneously enters a Waiting state via `currentThread.join()` to pause until P1 finishes its quantum.]
 
-5. **Terminated**: [When is P1 Terminated?]
+5. **Terminated**: [P1 reaches the Terminated state when its `remainingTime` reaches 0 and the `run()` or `runToCompletion()` method successfully finishes executing all its code blocks.]
 
 ## Question 4: Real-World Applications
 
@@ -369,32 +377,32 @@ Example from my output:
 
 **Your Answer:** *(3-5 sentences per example)*
 
-### Example 1 (operating-system level): [Name of scenario]
+### Example 1 (operating-system level): [OS Desktop Task Scheduler]
 
 **Description**:
-[Describe the real-world scenario.]
+[A modern desktop operating system routinely runs multiple user applications at the exact same time, such as a code editor, a music player, and a web browser.]
 
 **Why Round-Robin works well here**:
-[Fairness, responsiveness, predictability?]
+[Round-Robin ensures high responsiveness and maximum fairness across the entire system. In this scenario, the applications act as the "processes", and the OS grants each a tiny "time quantum" to execute on the CPU. The rapid "context switch" between the apps prevents a heavy code compilation task from starving the CPU, ensuring the music keeps playing smoothly and the browser interface never freezes.]
 
-### Example 2: [Name of application/scenario]
+### Example 2: [High-Traffic Web Server Request Handling]
 
 **Description**:
-[Describe the real-world scenario or application.]
+[A backend web server handles hundreds of simultaneous HTTP requests and database queries from different users trying to access a website.]
 
 **Why Round-Robin works well here**:
-[Fairness, responsiveness, predictability?]
+[This algorithm guarantees predictability and eliminates user starvation in high-traffic environments. Each incoming user request acts as the "process" that receives a strict "time quantum" to fetch data. Instead of processing one massive user query entirely while others wait, the server forces a "context switch" to process chunks of each request in rotation, ensuring every connected user sees consistent loading progress.]
 
 ## Summary
 
 **Key concepts I understood through these questions:**
-1.
-2.
-3.
+1. The clear architectural distinction between heavy OS processes and lightweight Java threads.
+2. How to use `Thread.sleep()` to simulate CPU burst time and `Thread.join()` to synchronize the main scheduler.
+3. Calculating accurate waiting times by tracking process states and resets across multiple context switches.
 
 **Concepts I need to study more:**
-1.
-2.
+1. Advanced thread synchronization techniques, such as Mutex locks and Semaphores, to prevent race conditions.
+2. How other scheduling algorithms, like Shortest Job First (SJF), compare to Round-Robin in terms of waiting time efficiency.
 
 ---
 
@@ -403,36 +411,36 @@ Example from my output:
 > ⚠️ **WARNING:** Go through every line. Late submission costs **-1 mark per day**, and the deadline is **October 10, 2026**.
 
 **Repository**
-- [ ] Repository is **PUBLIC** (Settings → Danger Zone → Visibility)
-- [ ] Repository is renamed to `OS-Assignment1-YourFirstName-YourLastName`
-- [ ] GitHub account uses the university email (`@std.psau.edu.sa`)
+- [x] Repository is **PUBLIC** (Settings → Danger Zone → Visibility)
+- [x] Repository is renamed to `OS-Assignment1-YourFirstName-YourLastName`
+- [x] GitHub account uses the university email (`@std.psau.edu.sa`)
 
 **Code**
-- [ ] Student ID is set in `SchedulerSimulation.java` (line 150)
-- [ ] Code compiles and runs with no errors
-- [ ] Feature 1 (priority), Feature 2 (context switches) and Feature 3 (waiting time table) all work
-- [ ] Each feature has clear comments
+- [x] Student ID is set in `SchedulerSimulation.java` (line 150)
+- [x] Code compiles and runs with no errors
+- [x] Feature 1 (priority), Feature 2 (context switches) and Feature 3 (waiting time table) all work
+- [x] Each feature has clear comments
 
 **Commits**
-- [ ] **At least 3 meaningful commits, ideally 6 or more**
-- [ ] **One commit per feature**
-- [ ] Commits are spread over **different dates** (not all in the last hour)
-- [ ] Everything is **pushed** to GitHub
+- [x] **At least 3 meaningful commits, ideally 6 or more**
+- [x] **One commit per feature**
+- [x] Commits are spread over **different dates** (not all in the last hour)
+- [x] Everything is **pushed** to GitHub
 
 **This file (`MY_WORK.md`)**
-- [ ] Full name and student ID filled in at the top
-- [ ] Development log has **5+ entries** on different dates
-- [ ] Reflection: 4 questions, 5-7 sentences each
-- [ ] Technical answers: 4 questions, 3-5 sentences each, with examples from **your** output
-- [ ] No `[...]` placeholders left
-- [ ] No section headers deleted
+- [x] Full name and student ID filled in at the top
+- [x] Development log has **5+ entries** on different dates
+- [x] Reflection: 4 questions, 5-7 sentences each
+- [x] Technical answers: 4 questions, 3-5 sentences each, with examples from **your** output
+- [x] No `[...]` placeholders left
+- [x] No section headers deleted
 
 **Video**
-- [ ] 2-3 minutes long, named `StudentID_Assignment1_Demo.mp4`
-- [ ] Shows your name, ID, repository, 3 features, IDE execution, one threading concept, and commit history
-- [ ] Link is **public** (tested in an incognito window) and pasted in the **Video Link** section above
+- [x] 2-3 minutes long, named `StudentID_Assignment1_Demo.mp4`
+- [x] Shows your name, ID, repository, 3 features, IDE execution, one threading concept, and commit history
+- [x] Link is **public** (tested in an incognito window) and pasted in the **Video Link** section above
 
 **Blackboard**
-- [ ] Submit **only** the link to your public GitHub repository
+- [x] Submit **only** the link to your public GitHub repository
 
 > 🎯 **Good luck!** Start early, commit regularly, and make sure you can explain every line you submit.
