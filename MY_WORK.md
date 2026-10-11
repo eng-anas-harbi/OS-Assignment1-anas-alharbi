@@ -239,13 +239,13 @@ At the conclusion of the simulation, the total count was printed.
 
 > 💡 **TIP:** Fill this in **last**, after all entries are written.
 
-**Total time spent on assignment**: [X hours]
+**Total time spent on assignment**: [2.5-3 hours]
 
-**Most challenging part**:
+**Most challenging part**:Calculating the waiting time accurately for Feature 3. It was difficult to ensure that the active burst time (when the thread is sleeping) wasn't counted as waiting time. I had to carefully track and reset "lastQueuedTime" every time the process yielded the CPU.
 
-**Most interesting learning**:
+**Most interesting learning**:Seeing visually how the Round-Robin scheduling algorithm works in practice. It was fascinating to watch the console output and see how long processes were repeatedly interrupted and re-queued, ensuring that shorter processes didn't starve.
 
-**What I would do differently next time**:
+**What I would do differently next time**:i will try to make a diagram to the code so i can implement all the Features with no inttreupt the logic in the code 
 
 ---
 
